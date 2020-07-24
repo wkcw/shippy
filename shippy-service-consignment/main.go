@@ -1,7 +1,7 @@
 package main
 
 import (
-	pb "github.com/wkcw/shippy-service-consignment/proto/consignment"
+	pb "github.com/wkcw/shippy/shippy-service-consignment/proto/consignment"
 	"log"
 
 	// 使用 go-micro

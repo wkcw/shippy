@@ -7,7 +7,7 @@ import (
 	"os"
 
 	micro "github.com/micro/go-micro/v2"
-	pb "github.com/wkcw/shippy/shippy-service-consignment/proto/consignment"
+	pb "github.com/wkcw/shippy/shippy-service-consignment"
 	"golang.org/x/net/context"
 )
 
