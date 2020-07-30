@@ -9,8 +9,6 @@ WORKDIR /app
 ENV GO111MODULE=on
 
 COPY . .
-COPY go.build.mod ./go.mod
-COPY go.sum ./
 
 RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o shippy-service-consignment

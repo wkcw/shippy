@@ -46,6 +46,12 @@ func (s *service) CreateConsignment(ctx context.Context, req *pb.Consignment, re
 
 	res.Created = true
 	res.Consignment = consignment
+
+	service := micro.NewService(micro.Name("shippy.consignment.cli"))
+	service.Init()
+	client := pb.NewShippingService("shippy.service.vessel", service.Client())
+	r, err := client.FindAvailable
+
 	return nil
 }
 
@@ -64,6 +70,8 @@ func main() {
 	)
 
 	srv.Init()
+
+	log.Println("Server initialized.")
 
 	if err := pb.RegisterShippingServiceHandler(srv.Server(), &service{repo}); err != nil {
 		log.Panic(err)
