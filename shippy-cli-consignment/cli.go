@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	"fmt"
 	"log"
 	"os"
 
@@ -17,7 +18,7 @@ const (
 )
 
 func parseFile(file string) (*pb.Consignment, error){
-	var consignment * pb.Consignment
+	var consignment *pb.Consignment
 	data, err := ioutil.ReadFile(file)
 	if err != nil {
 		return nil, err
@@ -43,17 +44,18 @@ func main() {
 	}
 
 	consignment, err := parseFile(file)
-
+	fmt.Println(consignment)
 	if err != nil {
 		log.Fatalf("Could not parse file: %v", err)
 	}
+	//for _, consignment := range consignments{
+		r, err := client.CreateConsignment(context.TODO(), consignment)
+		if err != nil {
+			log.Fatalf("Could not create consignment: %v", err)
+		}
+		log.Printf("Created: %t", r.Created)
+	//}
 
-	r, err := client.CreateConsignment(context.TODO(), consignment)
-
-	if err != nil {
-		log.Fatalf("Could not create consignment: %v", err)
-	}
-	log.Printf("Created: %t", r.Created)
 
 	getAll, err := client.GetConsignments(context.Background(), &pb.GetRequest{})
 	if err != nil {
