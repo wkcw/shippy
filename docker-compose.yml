@@ -19,10 +19,6 @@ services:
     environment:
       MICRO_SERVER_ADDERSS: ":50051"
 
-  # Commands
-  cli:
-    build: ./shippy-cli-consignment
-
   datastore:
     image: mongo
     container_name: "datastore"
@@ -34,3 +30,25 @@ services:
     ports:
       - 27017
     command: mongod --logpath=/dev/null
+
+  user:
+    build: ./shippy-service-user
+    ports:
+      - 50053:50051
+    environment:
+      MICRO_ADDRESS: ":50051"
+
+  database:
+    image: postgres:alpine
+    environment:
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_USER: "admin"
+    ports:
+      - 5432:5432
+
+  # Commands
+  cli:
+    build: ./shippy-cli-consignment
+
+  user-cli:
+    build: ./shippy-cli-user

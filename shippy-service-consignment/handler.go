@@ -10,11 +10,11 @@ import (
 
 type handler struct {
 	repository
-	vesselClient vesselProto.VesselService
+	vesselService vesselProto.VesselService
 }
 
 func (s *handler) CreateConsignment(ctx context.Context, req *pb.Consignment, res *pb.Response) error {
-	vesselResponse, err := s.vesselClient.FindAvailable(ctx, &vesselProto.Specification{
+	vesselResponse, err := s.vesselService.FindAvailable(ctx, &vesselProto.Specification{
 		MaxWeight: req.Weight,
 		Capacity: int32(len(req.Containers)),
 	})
