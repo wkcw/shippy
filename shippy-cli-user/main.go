@@ -1,6 +1,7 @@
 package main
 
 import (
+<<<<<<< HEAD
 	"log"
 	"os"
 
@@ -49,4 +50,52 @@ func main() {
 	log.Printf("Your access token is : %s \n", authResponse.Token)
 
 	os.Exit(0)
+=======
+	"context"
+	"fmt"
+	"log"
+
+	"github.com/micro/cli/v2"
+	"github.com/micro/go-micro/v2"
+	proto "github.com/wkcw/shippy/shippy-service-user/proto/user"
+)
+
+func createUser(ctx context.Context, service micro.Service, user *proto.User) error {
+	client := proto.NewUserService("shippy.service.user", service.Client())
+	rsp, err := client.Create(ctx, user)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println("Response: ", rsp.User)
+
+	return nil
+}
+
+func main() {
+	service := micro.NewService()
+	service.Init(
+		micro.Action(func(c *cli.Context) error {
+			name := c.String("name")
+			email := c.String("email")
+			company := c.String("company")
+			password := c.String("password")
+
+			ctx := context.Background()
+			user := &proto.User{
+				Name:     name,
+				Email:    email,
+				Company:  company,
+				Password: password,
+			}
+
+			if err := createUser(ctx, service, user); err != nil {
+				log.Println("error creating user: ", err.Error())
+				return err
+			}
+
+			return nil
+		}),
+	)
+>>>>>>> b387c3ba283944b855c2064e2228cf8d7edd26d0
 }
